@@ -1,0 +1,7 @@
+Z:\24-58158-2_LoginSystem\bin\Debug\24-58158-2_LoginSystem.exe.config
+Z:\24-58158-2_LoginSystem\bin\Debug\24-58158-2_LoginSystem.exe
+Z:\24-58158-2_LoginSystem\bin\Debug\24-58158-2_LoginSystem.pdb
+Z:\24-58158-2_LoginSystem\obj\Debug\24-58158-2_LoginSystem.csproj.AssemblyReference.cache
+Z:\24-58158-2_LoginSystem\obj\Debug\24-58158-2_LoginSystem.csproj.CoreCompileInputs.cache
+Z:\24-58158-2_LoginSystem\obj\Debug\24-58158-2_LoginSystem.exe
+Z:\24-58158-2_LoginSystem\obj\Debug\24-58158-2_LoginSystem.pdb
