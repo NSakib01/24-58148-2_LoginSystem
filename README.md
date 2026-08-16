@@ -5,11 +5,11 @@
 - **Course:** OOP 2 (Lab)
 - **Assignment:** Login, Registration & Logout with C# and SQL Server
 
-This is a new Windows Forms application built for Lab 1. It does not modify or copy the supplied `Login_System` sample. The sample was inspected only to understand its defects and to demonstrate how the new solution fixes them.
+This is a new Windows Forms application built for Lab Task 1. 
 
 ## 1. Environment
 
-- **IDE:** Visual Studio 2022 Community
+- **IDE:** Visual Studio 2026 Community
 - **Framework:** .NET Framework 4.8
 - **Database engine:** Microsoft SQL Server LocalDB (`MSSQLLocalDB`)
 - **Database tools:** SQL Server Management Studio (SSMS) or Visual Studio SQL Server Object Explorer
@@ -24,9 +24,9 @@ The connection string is stored once in `App.config`:
      connectionString="Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=24-58158-2_LoginDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" />
 ```
 
-If a lab computer uses SQL Express, only the `Data Source` value needs to be changed, for example to `.\SQLEXPRESS`. A real database password must never be committed.
 
-## 2. Quick setup and run
+
+## 2.Setup and Running the software
 
 1. Start LocalDB if needed:
 
@@ -34,14 +34,14 @@ If a lab computer uses SQL Express, only the `Data Source` value needs to be cha
    sqllocaldb start MSSQLLocalDB
    ```
 
-2. Open SSMS and connect to `(localdb)\MSSQLLocalDB` with Windows Authentication.
+2. Open SSMS and connect to server with `(localdb)\MSSQLLocalDB` or the pipeline name with Windows Authentication.
 3. Open `Schema.sql` and run the complete script. It creates `24-58158-2_LoginDB`, `dbo.Users`, and the bonus `dbo.LoginHistory` table.
 4. Open `24-58158-2_LoginSystem.sln` in Visual Studio 2022.
 5. Confirm that the project targets .NET Framework 4.8 and that the `System.Configuration` reference exists.
 6. Build the solution, then run it with `F5`.
 7. On the Login form, use **Test connection** before registering the first user.
 
-The project uses a server-hosted LocalDB database. It does not use `AttachDbFilename`, so the data is not replaced by a copied `.mdf` during each build.
+
 
 ## 3. Database design
 
@@ -92,8 +92,7 @@ SHA-256 satisfies this lab's minimum requirement. For a production application, 
 
 ### Vulnerable version - demonstration only, never compiled
 
-The supplied sample constructed SQL by joining control values into the command text. The equivalent vulnerable pattern is shown below only because the report requires the demonstration:
-
+The supplied sample constructed SQL by joining control values into the command text. 
 ```csharp
 // INSECURE DEMONSTRATION ONLY - not present in any .cs source file
 string unsafeSql = "SELECT Username FROM dbo.Users WHERE Username='"
@@ -134,19 +133,7 @@ Parameters send the value separately from the SQL command text, so SQL Server tr
 - A naïve sequence of `new LoginForm()` and `Hide()` can leave orphan forms. I kept LoginForm as the single application form and opened HomeForm modally.
 - A duplicate username can still occur between the existence check and insert. The database UNIQUE constraint remains the final protection, and error numbers 2601/2627 are caught to show a friendly message.
 
-## 9. Viva: eleven bugs in the supplied sample
 
-1. SQL injection because the login query uses string concatenation.
-2. Two different connection strings use `dbEmployeeDetails` and `Login`.
-3. The code queries `LoginMst`, but the script creates `Table`.
-4. `Form1_Load` opens a connection, never uses it, and never closes it.
-5. No `try/catch`, so connection errors crash the app.
-6. `con.Close()` is skipped if an exception occurs before it.
-7. Passwords are stored and compared as plain text.
-8. The concatenated query misses a space before `and`.
-9. Successful login opens a website instead of a Home form.
-10. Controls use meaningless names such as `button1` and `textBox1`.
-11. The sample has no registration form and no logout flow.
 
 ## 10. ADO.NET patterns demonstrated
 
@@ -162,23 +149,11 @@ Parameters send the value separately from the SQL command text, so SQL Server tr
 
 ## 11. Screenshot evidence
 
-Before the final GitHub submission, place the real screenshots from the Windows/SQL Server run in `docs/screenshots/` using the exact filenames below. These files can then be inserted into the separately prepared course report.
 
 1. `01_table_design.png` - SSMS/Object Explorer Users column list
 2. `02_registration.png` - completed Registration form before clicking Register
 3. `03_successful_login.png` - successful login / welcome screen
 4. `04_failed_login.png` - incorrect-password message or remaining-attempt state
-5. `05_home_grid.png` - HomeForm DataGridView with users (no hashes)
-6. `06_logout.png` - cleared Login form after Logout
-7. `07_injection_before.png` - vulnerable demonstration bypassed with `' OR '1'='1`
-8. `08_injection_after.png` - final project rejecting the same input
 
-Do not use design mockups as evidence. The screenshots must come from the actual running app and SSMS/Object Explorer.
 
-## 12. GitHub submission checklist
 
-- Repository name: `24-58158-2_LoginSystem`
-- `Schema.sql`, solution, project, `App.config`, README, report, and screenshots committed
-- No `bin/`, `obj/`, `.vs/`, `.mdf`, `.ldf`, or real passwords committed
-- Repository opens and builds in Visual Studio 2022
-- Final GitHub link submitted together with `Schema.sql` and `Report.pdf`
